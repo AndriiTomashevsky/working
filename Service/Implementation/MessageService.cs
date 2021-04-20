@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AutoMapper;
 using DataAccess;
 using Repository;
 
@@ -8,16 +9,41 @@ namespace Service
 {
     public class MessageService : IMessageService
     {
-        IRepository<Message> messageRepository;
+        IUnitOfWork unitOfWork;
+        IMapper mapper;
 
-        public MessageService(IRepository<Message> messageRepository)
+        public MessageService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.messageRepository = messageRepository;
+            this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
-        public IEnumerable<Message> GetMessages()
+        public IEnumerable<MessageDTO> GetMessages(int userId)
         {
-            return messageRepository.GetAll();
+            var messages = unitOfWork.Messages.GetAll(m => m.UserId == userId);
+
+            return mapper.Map<IEnumerable<MessageDTO>>(messages);
+        }
+
+        public void Add(MessageDTO messageDTO)
+        {
+            unitOfWork.Messages.Add(mapper.Map<Message>(messageDTO));
+        }
+
+        public void Update(MessageDTO messageDTO)
+        {
+            Message message = unitOfWork.Messages.Get(messageDTO.Id);
+
+            if (message != null)
+            {
+                message.Text = messageDTO.Text;
+                unitOfWork.Messages.Update(message);
+            }
+        }
+
+        public void Delete(int id)
+        {
+            unitOfWork.Messages.Remove(id);
         }
     }
 }

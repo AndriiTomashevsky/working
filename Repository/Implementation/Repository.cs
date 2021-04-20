@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Repository
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : BaseEntity, new()
     {
         readonly ApplicationContext context;
         readonly DbSet<T> entities;
@@ -24,14 +24,31 @@ namespace Repository
             context.SaveChanges();
         }
 
-        public T Get(int id)
+        public virtual T Get(int id)
         {
             return entities.SingleOrDefault(e => e.Id == id);
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return entities.AsEnumerable();
+        }
+
+        public virtual IEnumerable<T> GetAll(Func<T, bool> predicate)
+        {
+            return entities.Where(predicate).AsEnumerable();
+        }
+
+        public void Update(T entity)
+        {
+            context.Entry(entity).State = EntityState.Modified;
+            context.SaveChanges();
+        }
+
+        public void Remove(int id)
+        {
+            context.Remove(new T { Id = id });
+            context.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,9 +13,10 @@ namespace DataAccess
             entityBuilder.HasKey(t => t.Id);
 
             entityBuilder
-                .HasOne(t => t.User)
+                .HasOne(t => t.UserAsset)
                 .WithMany(u => u.Topics)
-                .HasForeignKey(t => t.UserId);
+                .HasForeignKey(t => t.UserAssetId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

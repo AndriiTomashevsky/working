@@ -5,9 +5,8 @@ using System.Text;
 
 namespace DataAccess
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<int>
     {
-        public virtual ICollection<Topic> Topics { get; set; }
-        public virtual ICollection<Message> Messages { get; set; }
+        public DateTime CreateOn { get; set; }
     }
 }

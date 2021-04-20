@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,38 +13,30 @@ namespace PL_WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class TopicController : ControllerBase
+    public class MessageController : ControllerBase
     {
         readonly ITopicService topicService;
         readonly IMessageService messageService;
 
-        public TopicController(ITopicService topicService, IMessageService messageService)
+        public MessageController(ITopicService topicService, IMessageService messageService)
         {
             this.topicService = topicService;
             this.messageService = messageService;
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public List<TopicDTO> Get()
+        [HttpGet("{userId}")]
+        public List<MessageDTO> Get(int userId)
         {
-            return topicService.GetTopics().ToList();
-        }
-
-        [HttpGet("{id}")]
-        [AllowAnonymous]
-        public TopicDTO Get(int id)
-        {
-            return topicService.GetTopic(id);
+            return messageService.GetMessages(userId).ToList();
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] TopicDTO topic)
+        public IActionResult Create([FromBody] MessageDTO message)
         {
             if (ModelState.IsValid)
             {
-                topic.CreateOn = DateTime.Now;
-                topicService.Add(topic);
+                message.CreateOn = DateTime.Now;
+                messageService.Add(message);
 
                 return Ok();
             }
@@ -54,11 +47,11 @@ namespace PL_WebApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody]TopicDTO topicDTO)
+        public IActionResult Update([FromBody]MessageDTO messageDTO)
         {
             if (ModelState.IsValid)
             {
-                topicService.Update(topicDTO);
+                messageService.Update(messageDTO);
                 return Ok();
             }
 
@@ -69,7 +62,7 @@ namespace PL_WebApi.Controllers
         [Authorize(Roles = "Admin, Moderator")]
         public void Delete(int id)
         {
-            topicService.Delete(id);
+            messageService.Delete(id);
         }
     }
 }
