@@ -1,5 +1,6 @@
 #### For testing run project and navigate to url https://localhost:44314/swagger
-sa
+1. Register
 
-![image](https://user-images.githubusercontent.com/32520260/115362174-f2446880-a1c9-11eb-8d59-35e06e0d2051.png)
+![image](https://user-images.githubusercontent.com/32520260/115366160-bca17e80-a1cd-11eb-8266-f76f2b7b298c.png)
+
 
