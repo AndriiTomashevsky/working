@@ -39,17 +39,48 @@ if password invalid
 
 ![image](https://user-images.githubusercontent.com/32520260/115374785-d47d0080-a1d5-11eb-9f24-5440d5da5ba1.png)
 
-#### 6. To change role of user, login as Admin
+#### 6. Modify topic
+
+![image](https://user-images.githubusercontent.com/32520260/115376321-44d85180-a1d7-11eb-854d-a4cbc94ec379.png)
+
+![image](https://user-images.githubusercontent.com/32520260/115376736-a3053480-a1d7-11eb-835f-af3d9c9f6f5b.png)
+
+#### 7. Modify message 
+
+![image](https://user-images.githubusercontent.com/32520260/115376890-c3cd8a00-a1d7-11eb-8613-cbf1a50fb643.png)
+
+![image](https://user-images.githubusercontent.com/32520260/115377102-f8414600-a1d7-11eb-8b7f-96d5274ed313.png)
+
+#### 8. Check that changes was applied
+
+![image](https://user-images.githubusercontent.com/32520260/115377225-15761480-a1d8-11eb-9996-ffdadf728f74.png)
+
+![image](https://user-images.githubusercontent.com/32520260/115377376-3b031e00-a1d8-11eb-8e0e-0adeb4b38c83.png)
+
+
+#### 9. To change role of user, login as Admin
 
 ![image](https://user-images.githubusercontent.com/32520260/115375245-46554a00-a1d6-11eb-8451-f31bc055fd3e.png)
 
 ![image](https://user-images.githubusercontent.com/32520260/115375270-4ead8500-a1d6-11eb-902c-6b03dd5f94a2.png)
 
-#### 7. Change role of user Name1 from User to Moderator
+#### 10. Change role of user Name1 from User to Moderator
 
 ![image](https://user-images.githubusercontent.com/32520260/115375474-8288aa80-a1d6-11eb-9798-4640eddefe8f.png)
 
 ![image](https://user-images.githubusercontent.com/32520260/115375764-c4195580-a1d6-11eb-9e21-cd9a6ffc5e25.png)
+
+#### 11. Delete topic. Only users in role Admin or Moderator can delete topics or messages
+
+![image](https://user-images.githubusercontent.com/32520260/115377572-6e45ad00-a1d8-11eb-8b10-3486d6c940eb.png)
+
+![image](https://user-images.githubusercontent.com/32520260/115377653-7ef62300-a1d8-11eb-924e-56f1b07677b8.png)
+
+#### 12 Check that topic has deleted
+
+![image](https://user-images.githubusercontent.com/32520260/115377837-a947e080-a1d8-11eb-9e27-27e15ab62f06.png)
+
+![image](https://user-images.githubusercontent.com/32520260/115377878-b369df00-a1d8-11eb-9817-ee601fdfae98.png)
 
 
 
