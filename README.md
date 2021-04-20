@@ -76,7 +76,7 @@ if password invalid
 
 ![image](https://user-images.githubusercontent.com/32520260/115377653-7ef62300-a1d8-11eb-924e-56f1b07677b8.png)
 
-#### 12 Check that topic has deleted
+#### 12 Check that topic has been deleted
 
 ![image](https://user-images.githubusercontent.com/32520260/115377837-a947e080-a1d8-11eb-9e27-27e15ab62f06.png)
 
