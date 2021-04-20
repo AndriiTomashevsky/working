@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using DataAccess;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 
@@ -24,9 +19,9 @@ namespace PL_WebApi.Controllers
         }
 
         [HttpPost("changerole/{userId}")]
-        public async Task<IActionResult> ChangeRole(string userId, [FromBody]string newRoleId)
+        public async Task<IActionResult> ChangeRole(string userId, [FromBody, Required]string newRoleId)
         {
-            if (newRoleId != null)
+            if (ModelState.IsValid)
             {
                 var succeeded = await userService.ChangeRoleAsync(userId, newRoleId);
 
@@ -36,7 +31,7 @@ namespace PL_WebApi.Controllers
                 }
             }
 
-            return BadRequest();
+            return BadRequest(ModelState);
         }
     }
 }

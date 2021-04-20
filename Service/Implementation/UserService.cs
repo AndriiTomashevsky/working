@@ -10,34 +10,44 @@ namespace Service
 {
     public class UserService : IUserService
     {
-        UserManager<User> userManager;
-        RoleManager<IdentityRole<int>> roleManager;
-        public UserService(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
+        public UserManager<User> UserManager { get; }
+        public SignInManager<User> SignInManager { get; }
+        public RoleManager<IdentityRole<int>> RoleManager { get; }
+
+        public UserService(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager,
+            SignInManager<User> signInManager)
         {
-            this.userManager = userManager;
-            this.roleManager = roleManager;
+            UserManager = userManager;
+            SignInManager = signInManager;
+            RoleManager = roleManager;
+
         }
 
         public async Task<bool> ChangeRoleAsync(string userId, string newRoleId)
         {
-            var user = await userManager.FindByIdAsync(userId);
-            var role = await roleManager.FindByIdAsync(newRoleId);
+            var user = await UserManager.FindByIdAsync(userId);
+            var role = await RoleManager.FindByIdAsync(newRoleId);
 
             if (user != null && role != null)
             {
-                bool isInRole = await userManager.IsInRoleAsync(user, role.Name);
+                bool isInRole = await UserManager.IsInRoleAsync(user, role.Name);
 
                 if (!isInRole)
                 {
-                    var oldRole = await userManager.GetRolesAsync(user);
-                    await userManager.RemoveFromRoleAsync(user, oldRole.FirstOrDefault());
-                    var result = await userManager.AddToRoleAsync(user, role.Name);
+                    var oldRole = await UserManager.GetRolesAsync(user);
+                    await UserManager.RemoveFromRoleAsync(user, oldRole.FirstOrDefault());
+                    var result = await UserManager.AddToRoleAsync(user, role.Name);
 
                     return result.Succeeded;
                 }
             }
 
             return false;
+        }
+
+        public User CreateUser(string name)
+        {
+            return new User() { UserName = name, CreateOn = DateTime.Now };
         }
     }
 }

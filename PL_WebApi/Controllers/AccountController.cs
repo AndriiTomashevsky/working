@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using DataAccess;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PL_WebApi.Models;
+using Service;
 
 namespace PL_WebApi.Controllers
 {
@@ -14,16 +11,11 @@ namespace PL_WebApi.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        UserManager<User> userManager;
-        SignInManager<User> signInManager;
-        RoleManager<IdentityRole<int>> roleManager;
+        IUserService userService;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-            RoleManager<IdentityRole<int>> roleManager)
+        public AccountController(IUserService userService)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.roleManager = roleManager;
+            this.userService = userService;
         }
 
         [HttpPost("login")]
@@ -31,15 +23,15 @@ namespace PL_WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByNameAsync(model.Name);
+                var user = await userService.UserManager.FindByNameAsync(model.Name);
                 if (user != null)
                 {
-                    await signInManager.SignOutAsync();
-                    var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                    await userService.SignInManager.SignOutAsync();
+                    var result = await userService.SignInManager.PasswordSignInAsync(user, model.Password, false, false);
 
                     if (result.Succeeded)
                     {
-                        var roles = await userManager.GetRolesAsync(user);
+                        var roles = await userService.UserManager.GetRolesAsync(user);
                         return Ok($"You has been logged in as {roles.FirstOrDefault()}");
                     }
                     else
@@ -55,7 +47,7 @@ namespace PL_WebApi.Controllers
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            await userService.SignInManager.SignOutAsync();
             return Ok();
         }
 
@@ -64,12 +56,12 @@ namespace PL_WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                User newUser = new User() { UserName = model.Name, CreateOn = DateTime.Now };
-                var createUserResult = await userManager.CreateAsync(newUser, model.Password);
+                var newUser = userService.CreateUser(model.Name);
+                var createUserResult = await userService.UserManager.CreateAsync(newUser, model.Password);
 
                 if (createUserResult.Succeeded)
                 {
-                    var addtoRoleResult = await userManager.AddToRoleAsync(newUser, "user");
+                    var addtoRoleResult = await userService.UserManager.AddToRoleAsync(newUser, "user");
 
                     if (addtoRoleResult.Succeeded)
                     {
